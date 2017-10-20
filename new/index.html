@@ -1,0 +1,225 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>DC</title>
+<link rel="stylesheet" href="css/angular-material.min.css">
+</head>
+<script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+     <script src="js/angular-material.min.js"></script>
+     <script src="js/firebase.js"></script>
+    <script src="js/angularfire.min.js"></script>
+
+<body ng-app="PFapp" ng-controller="EmployeeViewCtrl">
+
+
+ <md-button class="md-primary md-raised" ng-click="showDialog($event)">   Add Employee  </md-button>
+<md-button class="md-primary md-raised" ng-click="SaveData($event)">   Save Data </md-button>
+
+
+
+
+
+
+<div ng-repeat="company in syncObject.Company">
+
+<!--<table border="0">
+<tr><th colspan="5"> {{company.Name}}</th></tr>
+  
+   <tr ng-repeat="(key, employee) in  company.Employees">
+      <td>{{employee.name}}</td>
+      <td>{{employee.uan}}</td>
+      <td>-->
+      <div layout-gt-sm="row">
+    
+    
+          <label class="md-block" flex><b>Name</b></label>
+     <label class="md-block" flex><b>UAN</b></label>
+      <label class="md-block" flex><b>Basic</b></label>
+     <label class="md-block" flex><b>Earn Total</b></label>
+    
+        
+      </div>
+      
+    <div layout-gt-sm="row" ng-repeat="(key, employee) in  company.Employees">
+    
+    
+          <label class="md-block" flex>{{employee.name}}</label>
+     <label class="md-block" flex>{{employee.uan}}</label>
+    
+    
+         <md-input-container class="md-block" flex-gt-sm="">
+                <label>Basic </label>
+                <input name="postalCode" ng-model="employee.basic"  ng-value="{{basic[key]=employee.basic}}"    placeholder="Enter Basic" required=""  >
+                
+          </md-input-container>
+       
+        <md-input-container class="md-block" flex-gt-sm="">
+               <label>Earn Total</label>
+                <input name="postalCode" ng-model="employee.earn"   ng-value="{{earn[key]=employee.earn}}" placeholder="Enter Earned Total" required="" >
+          </md-input-container>
+          
+           
+          
+      </div>
+   </tr>
+
+
+</div>
+
+
+
+
+
+
+
+ <script type="text/ng-template" id="new-dialog.template.html">
+    <md-dialog id="login-dialog" aria-label="Login" ng-cloak>
+     
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>New Employee</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="dialog.close()">
+              <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            <md-input-container class="md-block">
+              <label>Username</label>
+              <input name="username" ng-model="newuser.name" md-autofocus required />
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>UAN</label>
+              <input name="uan" ng-model="newuser.uan" md-autofocus required />
+            </md-input-container>
+			 <md-input-container class="md-block">
+              <label>Basic</label>
+              <input name="basic" ng-model="newuser.basic" md-autofocus required />
+            </md-input-container>
+           <md-input-container class="md-block">
+              <label>Earn</label>
+              <input name="earn" ng-model="newuser.earn" md-autofocus required />
+            </md-input-container>
+          </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+         
+          <span flex></span>
+          <md-button type="submit"  class="md-raised md-primary" ng-click="save(newuser)">Save</md-button>
+        </md-dialog-actions>
+     
+    </md-dialog>
+  </script>
+
+
+
+
+  <script type="text/javascript">    
+   
+       var app = angular.module("PFapp", ["firebase","ngMaterial"]);
+	   
+	   
+	       app.controller("EmployeeViewCtrl", function($scope, $firebaseObject,$mdMedia,$mdDialog) {
+			   
+			           $scope.basic = {};$scope.earn = {};
+					   
+      					var ref = new Firebase("https://test-250316.firebaseio.com/PF");
+	  
+						  ref.on("value", function(snapshot) {
+							  
+							  
+							  $scope.syncObject = snapshot.val();
+							  $scope.$apply();
+							  
+							 // console.log($scope.syncObject.Company[0].Employees);
+							 
+					}, function (errorObject) {
+					 // console.log("The read failed: " + errorObject.code);
+					});
+
+					$scope.SaveData = function(event){
+						
+      
+	                  console.log($scope.basic);
+						angular.forEach($scope.basic, function(value, key) {
+							      
+								  //  console.log("key/"+value);
+ 									ref.child('Company/0/Employees').child(key).update({"basic":value});
+									
+									
+						});
+
+						
+						
+						
+					};
+	  
+				   $scope.showDialog = function(event) {
+				
+				 
+				
+
+     $mdDialog.show({
+      controller: DialogController,
+      controllerAs: 'dialog',
+      templateUrl: 'new-dialog.template.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+	  fullscreen: $scope.customFullscreen
+      
+    })
+    .then(function(save) {
+		       var usersRef =   ref.child("Company/0/Employees");
+			   usersRef.push().set({
+				     "name": save.name,
+					 "uan" : save.uan,
+					 "basic": save.basic,
+					 "earn" : save.earn
+				   });
+				 
+		  },
+		  function(){
+			  
+			  
+		  });
+
+  
+				
+				
+			  };
+     
+        function DialogController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.save = function(answer) {
+		
+      $mdDialog.hide(answer);
+    };
+  }
+	  
+    });
+	
+  </script>
+  
+  
+  
+  
+
+
+
+</body>
+</html>
