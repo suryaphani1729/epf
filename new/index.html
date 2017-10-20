@@ -3,6 +3,17 @@
 <head>
 <meta charset="utf-8">
 <title>DC</title>
+<link rel="manifest" href="./manifest.webapp">
+	
+	<!-- for apple -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Adishankara">
+	<!-- for windows -->
+<meta name="msapplication-TileColor" content="#2F3BA2">
+	
+	
+	
 <link rel="stylesheet" href="css/angular-material.min.css">
 </head>
 <script src="js/angular.min.js"></script>
@@ -122,7 +133,13 @@
 
 
   <script type="text/javascript">    
-   
+    if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+             .register('./service-worker.js')
+             .then(function(reg) {  registration = reg;   console.log('Service Worker Registered'); });
+  }	
+	  
+	  
        var app = angular.module("PFapp", ["firebase","ngMaterial"]);
 	   
 	   
