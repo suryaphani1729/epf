@@ -21,7 +21,7 @@
   ],
   "theme_color": "#000000",
   "background_color": "#e0e0e0",
-  "start_url": "/new/index.html",
+  "start_url": "/epf/new/index.html",
   "display": "standalone",
   "orientation": "portrait"
 }
