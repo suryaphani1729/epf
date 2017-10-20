@@ -1,0 +1,27 @@
+{
+  "name": "Ramu PF Profiles",
+  "short_name": "PF Profiles",
+  "icons": [
+  {
+      "src": "launcher_icon.jpg",
+      "type": "image/jpg",
+      "sizes": "48x48"
+    },
+    {
+      "src": "launcher_icon.jpg",
+      "type": "image/jpg",
+      "sizes": "96x96"
+    },
+    {
+      "src": "launcher_icon.jpg",
+      "type": "image/jpg",
+      "sizes": "192x192"
+    }
+
+  ],
+  "theme_color": "#000000",
+  "background_color": "#e0e0e0",
+  "start_url": "/new/index.html",
+  "display": "standalone",
+  "orientation": "portrait"
+}
