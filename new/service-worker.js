@@ -1,16 +1,17 @@
-var cacheName = 'adishankaraCache-9';
-var dataCacheName = 'slokaData-v1';
+var cacheName = 'epf-1';
+var dataCacheName = 'epf-v1';
 
 
 var filesToCache = [
    '/epf/new/',
   '/epf/new/index.html',
-  '/epf/new/js/main.js',
+  '/epf/new/js/angular.min.js',
+   '/epf/new/js/angular-animate.min.js',
+   '/epf/new/js/angular-aria.min.js',
+   '/epf/new/js/angular-material.min.js',
    '/epf/new/js/firebase.js',
-   '/epf/new/js/material.css',
-   '/epf/new/js/material.js',
-   '/epf/new/js/angular.js',
-   /epf/new/css/angular.js'
+   '/epf/new/js/angularfire.min.js',
+   '/epf/new/css/angular-material.min.css'
 ];
 
 
