@@ -1,5 +1,5 @@
-var cacheName = 'epf-1';
-var dataCacheName = 'epf-v1';
+var cacheName = 'epf-2';
+var dataCacheName = 'epf-v2';
 
 
 var filesToCache = [
