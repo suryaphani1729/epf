@@ -45,7 +45,7 @@
       <td>{{employee.uan}}</td>
       <td>-->
       <div layout-gt-sm="row">
-    
+      <label class="md-block" flex><b>No</b></label>
     
           <label class="md-block" flex><b>Name</b></label>
      <label class="md-block" flex><b>UAN</b></label>
@@ -57,7 +57,7 @@
       
     <div layout-gt-sm="row" ng-repeat="(key, employee) in  company.Employees">
     
-    
+      <label class="md-block" flex>{{$index}}</label>
           <label class="md-block" flex>{{employee.name}}</label>
      <label class="md-block" flex>{{employee.uan}}</label>
     
