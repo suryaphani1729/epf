@@ -167,16 +167,16 @@
 	                 
 						angular.forEach($scope.basic, function(value, key) {
 							      
-								  //  console.log("key/"+value);
- 									ref.child('Company/0/Employees').child(key).update({"basic":value});
+								    console.log("key/"+value);
+ 								//	ref.child('Company/0/Employees').child(key).update({"basic":value});
 									
 									
 						});
 
 						angular.forEach($scope.earn, function(value, key) {
 							      
-								  //  console.log("key/"+value);
- 									ref.child('Company/0/Employees').child(key).update({"earn":value});
+								    console.log("key/"+value);
+ 								//	ref.child('Company/0/Employees').child(key).update({"earn":value});
 									
 									
 						});
