@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html>
 <head>
@@ -34,7 +35,7 @@
 
 
 
-<div ng-repeat="company in syncObject.Company">
+<div>
 
 <!--<table border="0">
 <tr><th colspan="5"> {{company.Name}}</th></tr>
@@ -44,7 +45,7 @@
       <td>{{employee.uan}}</td>
       <td>-->
       <div layout-gt-sm="row">
-    
+      <label class="md-block" flex><b>No</b></label>
     
           <label class="md-block" flex><b>Name</b></label>
      <label class="md-block" flex><b>UAN</b></label>
@@ -54,9 +55,9 @@
         
       </div>
       
-    <div layout-gt-sm="row" ng-repeat="(key, employee) in  company.Employees">
+    <div layout-gt-sm="row" ng-repeat="(key, employee) in  syncObject.Employees">
     
-    
+      <label class="md-block" style="text-align:center;" flex>{{$index+1}}</label>
           <label class="md-block" flex>{{employee.name}}</label>
      <label class="md-block" flex>{{employee.uan}}</label>
     
@@ -147,7 +148,7 @@
 			   
 			           $scope.basic = {};$scope.earn = {};
 					   
-      					var ref = new Firebase("https://test-250316.firebaseio.com/PF");
+      					var ref = new Firebase("https://test-250316.firebaseio.com/PF/Company/0/");
 	  
 						  ref.on("value", function(snapshot) {
 							  
@@ -155,7 +156,7 @@
 							  $scope.syncObject = snapshot.val();
 							  $scope.$apply();
 							  
-							 // console.log($scope.syncObject.Company[0].Employees);
+							 console.log($scope.syncObject.Employees);
 							 
 					}, function (errorObject) {
 					 // console.log("The read failed: " + errorObject.code);
@@ -168,7 +169,7 @@
 						angular.forEach($scope.basic, function(value, key) {
 							      
 								 //   console.log(key+"/"+value);
- 							ref.child('Company/0/Employees/'+key).update({"basic":value});
+ 							ref.child('Employees/'+key).update({"basic":value});
 									
 									
 						});
@@ -176,7 +177,7 @@
 						angular.forEach($scope.earn, function(value, key) {
 							      
 								//    console.log(key+"/"+value);
- 							ref.child('Company/0/Employees/'+key).update({"earn":value});
+ 							ref.child('Employees/'+key).update({"earn":value});
 									
 									
 						});
@@ -200,7 +201,7 @@
       
     })
     .then(function(save) {
-		       var usersRef =   ref.child("Company/0/Employees");
+		       var usersRef =   ref.child("Employees");
 			   usersRef.push().set({
 				     "name": save.name,
 					 "uan" : save.uan,
