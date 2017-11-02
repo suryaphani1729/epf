@@ -35,7 +35,7 @@
 
 
 
-<div ng-repeat="company in syncObject.Company">
+<div>
 
 <!--<table border="0">
 <tr><th colspan="5"> {{company.Name}}</th></tr>
@@ -55,7 +55,7 @@
         
       </div>
       
-    <div layout-gt-sm="row" ng-repeat="(key, employee) in  company.Employees">
+    <div layout-gt-sm="row" ng-repeat="(key, employee) in  syncObject.Employees">
     
       <label class="md-block" style="text-align:center;" flex>{{$index+1}}</label>
           <label class="md-block" flex>{{employee.name}}</label>
