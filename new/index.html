@@ -215,6 +215,18 @@
 					};
 	  $scope.showFileData = function(event){
 		  
+		  
+		   $scope.textFormat="";
+		      angular.forEach($scope.syncObject.Employees, function(value, key) {
+							      
+								 //   console.log(key+"/"+value);
+ 							//ref.child('Employees/'+key).update({"basic":value});
+							$scope.textFormat+=""+value.name+"\n";		
+									
+						});
+		 
+		  
+		  
 		    $mdDialog.show({
       controller: TextController,
       controllerAs: 'dialog',
@@ -297,15 +309,7 @@
 	 function TextController($scope, $mdDialog) {
 		 
 		 
-		     $scope.textFormat="";
-		      angular.forEach($scope.syncObject.Employees, function(value, key) {
-							      
-								 //   console.log(key+"/"+value);
- 							//ref.child('Employees/'+key).update({"basic":value});
-							$scope.textFormat+=""+value.name+"\n";		
-									
-						});
-		 
+		    
 		 
 		 
 		 
