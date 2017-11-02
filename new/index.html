@@ -98,22 +98,10 @@
 
         <md-dialog-content>
           <div class="md-dialog-content">
-            <md-input-container class="md-block">
-              <label>Username</label>
-              <input name="username" ng-model="newuser.name" md-autofocus required />
-            </md-input-container>
-            <md-input-container class="md-block">
-              <label>UAN</label>
-              <input name="uan" ng-model="newuser.uan" md-autofocus required />
-            </md-input-container>
-			 <md-input-container class="md-block">
-              <label>Basic</label>
-              <input name="basic" ng-model="newuser.basic" md-autofocus required />
-            </md-input-container>
-           <md-input-container class="md-block">
-              <label>Earn</label>
-              <input name="earn" ng-model="newuser.earn" md-autofocus required />
-            </md-input-container>
+            
+              <div>{{textFormat}}</div
+			
+         
           </div>
         </md-dialog-content>
 
@@ -187,7 +175,7 @@
 	   
 	       app.controller("EmployeeViewCtrl", function($scope, $firebaseObject,$mdMedia,$mdDialog) {
 			   
-			           $scope.basic = {};$scope.earn = {};
+			           $scope.basic = {};$scope.earn = {}; $scope.textFormat = "";
 					   
       					var ref = new Firebase("https://test-250316.firebaseio.com/PF/Company/0/");
 	  
@@ -238,13 +226,10 @@
       
     })
     .then(function(save) {
-		       var usersRef =   ref.child("Employees");
-			   usersRef.push().set({
-				     "name": save.name,
-					 "uan" : save.uan,
-					 "basic": save.basic,
-					 "earn" : save.earn
-				   });
+			    
+			
+			    
+			    
 				 
 		  },
 		  function(){
@@ -293,6 +278,9 @@
 			  };
      
         function DialogController($scope, $mdDialog) {
+		
+		
+		
     $scope.hide = function() {
       $mdDialog.hide();
     };
@@ -307,6 +295,21 @@
     };
   }
 	 function TextController($scope, $mdDialog) {
+		 
+		 
+		     $scope.textFormat="";
+		      angular.forEach($scope.syncObject.Employees, function(value, key) {
+							      
+								 //   console.log(key+"/"+value);
+ 							//ref.child('Employees/'+key).update({"basic":value});
+							$scope.textFormat+=""+value.name+"\n";		
+									
+						});
+		 
+		 
+		 
+		 
+		 
     $scope.hide = function() {
       $mdDialog.hide();
     };
