@@ -148,13 +148,13 @@
 			   
 			           $scope.basic = {};$scope.earn = {};
 					   
-      					var ref = new Firebase("https://test-250316.firebaseio.com/PF");
+      					var ref = new Firebase("https://test-250316.firebaseio.com/PF/Company/1/");
 	  
 						  ref.on("value", function(snapshot) {
 							  
 							  
 							  $scope.syncObject = snapshot.val();
-							  $scope.$apply();
+							 // $scope.$apply();
 							  
 							 // console.log($scope.syncObject.Company[0].Employees);
 							 
