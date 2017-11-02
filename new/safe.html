@@ -154,9 +154,9 @@
 							  
 							  
 							  $scope.syncObject = snapshot.val();
-							 // $scope.$apply();
+							  $scope.$apply();
 							  
-							 // console.log($scope.syncObject.Company[0].Employees);
+							 console.log($scope.syncObject.Employees);
 							 
 					}, function (errorObject) {
 					 // console.log("The read failed: " + errorObject.code);
