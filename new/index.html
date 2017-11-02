@@ -30,7 +30,7 @@
  <md-button class="md-primary md-raised" ng-click="showDialog($event)">   Add Employee  </md-button>
 <md-button class="md-primary md-raised" ng-click="SaveData($event)">   Save Data </md-button>
 
-
+<md-button class="md-primary md-raised" ng-click="showFileData($event)">   Save Data </md-button>
 
 
 
@@ -83,7 +83,48 @@
 
 
 
+ <script type="text/ng-template" id="text-dialog.template.html">
+    <md-dialog id="login-dialog" aria-label="Login" ng-cloak>
+     
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>New Employee</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="dialog.close()">
+              <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
 
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            <md-input-container class="md-block">
+              <label>Username</label>
+              <input name="username" ng-model="newuser.name" md-autofocus required />
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>UAN</label>
+              <input name="uan" ng-model="newuser.uan" md-autofocus required />
+            </md-input-container>
+			 <md-input-container class="md-block">
+              <label>Basic</label>
+              <input name="basic" ng-model="newuser.basic" md-autofocus required />
+            </md-input-container>
+           <md-input-container class="md-block">
+              <label>Earn</label>
+              <input name="earn" ng-model="newuser.earn" md-autofocus required />
+            </md-input-container>
+          </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+         
+          <span flex></span>
+          <md-button type="submit"  class="md-raised md-primary" ng-click="save(newuser)">Save</md-button>
+        </md-dialog-actions>
+     
+    </md-dialog>
+  </script>
 
 
 
@@ -184,7 +225,38 @@
 						
 						
 					};
-	  
+	  $scope.showFileData = function(event){
+		  
+		    $mdDialog.show({
+      controller: TextController,
+      controllerAs: 'dialog',
+      templateUrl: 'text-dialog.template.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+	  fullscreen: $scope.customFullscreen
+      
+    })
+    .then(function(save) {
+		       var usersRef =   ref.child("Employees");
+			   usersRef.push().set({
+				     "name": save.name,
+					 "uan" : save.uan,
+					 "basic": save.basic,
+					 "earn" : save.earn
+				   });
+				 
+		  },
+		  function(){
+			  
+			  
+		  });
+
+		  
+		  
+		  
+		  
+	  };
 				   $scope.showDialog = function(event) {
 				
 				 
@@ -234,6 +306,23 @@
       $mdDialog.hide(answer);
     };
   }
+	 function TextController($scope, $mdDialog) {
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.save = function(answer) {
+		
+      $mdDialog.hide(answer);
+    };
+  }	       
+		       
+		       
+		       
 	  
     });
 	
