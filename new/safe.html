@@ -169,7 +169,7 @@
 						angular.forEach($scope.basic, function(value, key) {
 							      
 								 //   console.log(key+"/"+value);
- 							ref.child('Company/1/Employees/'+key).update({"basic":value});
+ 							ref.child('Employees/'+key).update({"basic":value});
 									
 									
 						});
@@ -177,7 +177,7 @@
 						angular.forEach($scope.earn, function(value, key) {
 							      
 								//    console.log(key+"/"+value);
- 							ref.child('Company/1/Employees/'+key).update({"earn":value});
+ 							ref.child('Employees/'+key).update({"earn":value});
 									
 									
 						});
@@ -201,7 +201,7 @@
       
     })
     .then(function(save) {
-		       var usersRef =   ref.child("Company/1/Employees");
+		       var usersRef =   ref.child("Employees");
 			   usersRef.push().set({
 				     "name": save.name,
 					 "uan" : save.uan,
