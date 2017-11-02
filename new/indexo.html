@@ -1,0 +1,359 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Ramu</title>
+<link rel="manifest" href="./manifest.webapp">
+	
+	<!-- for apple -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="Adishankara">
+	<!-- for windows -->
+<meta name="msapplication-TileColor" content="#2F3BA2">
+	
+	
+	
+<link rel="stylesheet" href="css/angular-material.min.css">
+</head>
+<script src="js/angular.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    <script src="js/angular-aria.min.js"></script>
+     <script src="js/angular-material.min.js"></script>
+     <script src="js/firebase.js"></script>
+    <script src="js/angularfire.min.js"></script>
+
+<body ng-app="PFapp" ng-controller="EmployeeViewCtrl">
+
+
+ <md-button class="md-primary md-raised" ng-click="showDialog($event)">   Add Employee  </md-button>
+<md-button class="md-primary md-raised" ng-click="SaveData($event)">   Save Data </md-button>
+
+<md-button class="md-primary md-raised" ng-click="showFileData($event)">   Show Text </md-button>
+
+
+
+
+<div>
+
+<!--<table border="0">
+<tr><th colspan="5"> {{company.Name}}</th></tr>
+  
+   <tr ng-repeat="(key, employee) in  company.Employees">
+      <td>{{employee.name}}</td>
+      <td>{{employee.uan}}</td>
+      <td>-->
+      <div layout-gt-sm="row">
+      <label class="md-block" flex><b>No</b></label>
+    
+          <label class="md-block" flex><b>Name</b></label>
+     <label class="md-block" flex><b>UAN</b></label>
+      <label class="md-block" flex><b>Basic</b></label>
+     <label class="md-block" flex><b>Earn Total</b></label>
+    
+        
+      </div>
+      
+    <div layout-gt-sm="row" ng-repeat="(key, employee) in  syncObject.Employees">
+    
+      <label class="md-block" style="text-align:center;" flex>{{$index+1}}</label>
+          <label class="md-block" flex>{{employee.name}}</label>
+     <label class="md-block" flex>{{employee.uan}}</label>
+    
+    
+         <md-input-container class="md-block" flex-gt-sm="">
+                <label>Basic </label>
+                <input name="postalCode" ng-model="employee.basic"  ng-value="{{basic[key]=employee.basic}}"    placeholder="Enter Basic" required=""  >
+                
+          </md-input-container>
+       
+        <md-input-container class="md-block" flex-gt-sm="">
+               <label>Earn Total</label>
+                <input name="postalCode" ng-model="employee.earn"   ng-value="{{earn[key]=employee.earn}}" placeholder="Enter Earned Total" required="" >
+          </md-input-container>
+          
+           
+          
+      </div>
+   </tr>
+
+
+</div>
+
+
+
+ <script type="text/ng-template" id="text-dialog.template.html">
+    <md-dialog id="login-dialog" aria-label="Login" ng-cloak>
+     
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>New Employee</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="dialog.close()">
+              <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            
+              <div ng-bind-html="textFormat"></div>
+			
+         
+          </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+         
+          <span flex></span>
+          <md-button type="submit"  class="md-raised md-primary" ng-click="save(newuser)">Save</md-button>
+        </md-dialog-actions>
+     
+    </md-dialog>
+  </script>
+
+
+
+ <script type="text/ng-template" id="new-dialog.template.html">
+    <md-dialog id="login-dialog" aria-label="Login" ng-cloak>
+     
+        <md-toolbar>
+          <div class="md-toolbar-tools">
+            <h2>New Employee</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="dialog.close()">
+              <md-icon md-svg-src="img/icons/ic_close_24px.svg" aria-label="Close dialog"></md-icon>
+            </md-button>
+          </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+          <div class="md-dialog-content">
+            <md-input-container class="md-block">
+              <label>Username</label>
+              <input name="username" ng-model="newuser.name" md-autofocus required />
+            </md-input-container>
+            <md-input-container class="md-block">
+              <label>UAN</label>
+              <input name="uan" ng-model="newuser.uan" md-autofocus required />
+            </md-input-container>
+			 <md-input-container class="md-block">
+              <label>Basic</label>
+              <input name="basic" ng-model="newuser.basic" md-autofocus required />
+            </md-input-container>
+           <md-input-container class="md-block">
+              <label>Earn</label>
+              <input name="earn" ng-model="newuser.earn" md-autofocus required />
+            </md-input-container>
+          </div>
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+         
+          <span flex></span>
+          <md-button type="submit"  class="md-raised md-primary" ng-click="save(newuser)">Save</md-button>
+        </md-dialog-actions>
+     
+    </md-dialog>
+  </script>
+
+
+
+
+  <script type="text/javascript">    
+  /*  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+             .register('./service-worker.js')
+             .then(function(reg) {  registration = reg;   console.log('Service Worker Registered'); });
+  }	*/
+	  
+	  
+       var app = angular.module("PFapp", ["firebase","ngMaterial"]);
+	   
+	        app.run(function($rootScope) {
+    $rootScope.textFormat = "";
+});
+	       app.controller("EmployeeViewCtrl", function($scope, $firebaseObject,$mdMedia,$mdDialog, $rootScope) {
+			   
+			           $scope.basic = {};$scope.earn = {}; 
+					   
+      					var ref = new Firebase("https://test-250316.firebaseio.com/PF/Company/0/");
+	  
+						  ref.on("value", function(snapshot) {
+							  
+							  
+							  $scope.syncObject = snapshot.val();
+							  $scope.$apply();
+							  
+							 console.log($scope.syncObject.Employees);
+							 
+					}, function (errorObject) {
+					 // console.log("The read failed: " + errorObject.code);
+					});
+
+					$scope.SaveData = function(event){
+						
+      
+	                 
+						angular.forEach($scope.basic, function(value, key) {
+							      
+								 //   console.log(key+"/"+value);
+ 							ref.child('Employees/'+key).update({"basic":value});
+									
+									
+						});
+
+						angular.forEach($scope.earn, function(value, key) {
+							      
+								//    console.log(key+"/"+value);
+ 							ref.child('Employees/'+key).update({"earn":value});
+									
+									
+						});
+						
+						
+					};
+	  $scope.showFileData = function(event){
+		  
+		  
+		   $scope.textFormat="";
+		      angular.forEach($scope.syncObject.Employees, function(value, key) {
+							      
+								 //   console.log(key+"/"+value);
+ 							//ref.child('Employees/'+key).update({"basic":value});
+							var a = value.name;
+							var b = value.uan;
+							var c = value.earn;
+							var d = value.basic;
+							var e = (parseInt(d) >= 15000) ? 15000:d;
+							var f = e;
+							var g = Math.round((d*12/100));
+							var h = Math.round((e*8.33/100));
+							var i=g-h;
+							var j="";
+							var k= 0;
+							var devider = ",";
+							$rootScope.textFormat+=""+a+","+b+","+c+","+d+","+e+","+f+","+g+","+h+","+i+","+j+","+k+"<br/>";		
+									
+						});
+		
+		
+		  
+		    $mdDialog.show({
+      controller: TextController,
+      controllerAs: 'dialog',
+      templateUrl: 'text-dialog.template.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+	  fullscreen: $scope.customFullscreen
+      
+    })
+    .then(function(save) {
+			    
+			
+			    
+			    
+				 
+		  },
+		  function(){
+			  
+			  
+		  });
+
+		  
+		  
+		  
+		  
+	  };
+				   $scope.showDialog = function(event) {
+				
+				 
+				
+
+     $mdDialog.show({
+      controller: DialogController,
+      controllerAs: 'dialog',
+      templateUrl: 'new-dialog.template.html',
+      parent: angular.element(document.body),
+      targetEvent: event,
+      clickOutsideToClose: true,
+	  fullscreen: $scope.customFullscreen
+      
+    })
+    .then(function(save) {
+		       var usersRef =   ref.child("Employees");
+			   usersRef.push().set({
+				     "name": save.name,
+					 "uan" : save.uan,
+					 "basic": save.basic,
+					 "earn" : save.earn
+				   });
+				 
+		  },
+		  function(){
+			  
+			  
+		  });
+
+  
+				
+				
+			  };
+     
+        function DialogController($scope, $mdDialog) {
+		
+		
+		
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.save = function(answer) {
+		
+      $mdDialog.hide(answer);
+    };
+  }
+	 function TextController($scope, $mdDialog,$rootScope, $sce) {
+		 
+		 
+		    
+		 $scope.textFormat = $sce.trustAsHtml($rootScope.textFormat);
+		 
+		 
+		 
+    $scope.hide = function() {
+      $mdDialog.hide();
+    };
+
+    $scope.cancel = function() {
+      $mdDialog.cancel();
+    };
+
+    $scope.save = function(answer) {
+		
+      $mdDialog.hide(answer);
+    };
+  }	       
+		       
+		       
+		       
+	  
+    });
+	
+  </script>
+  
+  
+  
+  
+
+
+
+</body>
+</html>
