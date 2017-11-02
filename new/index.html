@@ -30,7 +30,7 @@
  <md-button class="md-primary md-raised" ng-click="showDialog($event)">   Add Employee  </md-button>
 <md-button class="md-primary md-raised" ng-click="SaveData($event)">   Save Data </md-button>
 
-<md-button class="md-primary md-raised" ng-click="showFileData($event)">   Save Data </md-button>
+<md-button class="md-primary md-raised" ng-click="showFileData($event)">   Show Text </md-button>
 
 
 
@@ -99,7 +99,7 @@
         <md-dialog-content>
           <div class="md-dialog-content">
             
-              <div>{{textFormat}}</div
+              <div ng-model="$parent.textFormat"></div
 			
          
           </div>
@@ -216,16 +216,16 @@
 	  $scope.showFileData = function(event){
 		  
 		  
-		   $parent.textFormat="";
+		   $scope.textFormat="";
 		      angular.forEach($scope.syncObject.Employees, function(value, key) {
 							      
 								 //   console.log(key+"/"+value);
  							//ref.child('Employees/'+key).update({"basic":value});
-							$parent.textFormat+=""+value.name+"\n";		
+							$scope.textFormat+=""+value.name+"\n";		
 									
 						});
 		 console.log("*****************");
-		  console.log($parent.textFormat);
+		  console.log($scope.textFormat);
 		  
 		
 		  
