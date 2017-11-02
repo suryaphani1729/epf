@@ -216,16 +216,16 @@
 	  $scope.showFileData = function(event){
 		  
 		  
-		   $scope.textFormat="";
+		   $parent.textFormat="";
 		      angular.forEach($scope.syncObject.Employees, function(value, key) {
 							      
 								 //   console.log(key+"/"+value);
  							//ref.child('Employees/'+key).update({"basic":value});
-							$scope.textFormat+=""+value.name+"\n";		
+							$parent.textFormat+=""+value.name+"\n";		
 									
 						});
 		 console.log("*****************");
-		  console.log($scope.textFormat);
+		  console.log($parent.textFormat);
 		  
 		
 		  
