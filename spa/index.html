@@ -1,0 +1,93 @@
+<!doctype html>
+<html ng-app="myapp">
+<head>
+<meta charset="utf-8">
+<meta name="format-detection" content="telephone=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Test</title>
+<style>
+table {    border-collapse: collapse;	width:80%;	left:10%;	position:relative;}
+table.myTable{width:96%;	left:2%; padding: 10px;	}
+table, th, td {    border: 1px solid #FFF;}
+.main{    width: 100%;    height: 100%;    padding: 0;    margin: 0;    position: absolute;    top: 0;    left: 0;     overflow-y: scroll;}
+.bgColor{ background: #f6f8f9; /* Old browsers */background: -moz-linear-gradient(45deg, #f6f8f9 0%, #e5ebee 27%, #d7dee3 78%, #f5f7f9 100%); /* FF3.6-15 */background: -webkit-linear-gradient(45deg, #f6f8f9 0%,#e5ebee 27%,#d7dee3 78%,#f5f7f9 100%); /* Chrome10-25,Safari5.1-6 */background: linear-gradient(45deg, #f6f8f9 0%,#e5ebee 27%,#d7dee3 78%,#f5f7f9 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f6f8f9', endColorstr='#f5f7f9',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */}
+tbody td{  padding: 10px;}
+tbody tr:nth-child(odd){  background-color: #5a5a5a;  color: #fff;}
+input {    border: 1px solid white;     -webkit-box-shadow:       inset 0 0 2px  rgba(0,0,0,0.1),            0 0 4px rgba(0,0,0,0.1);     -moz-box-shadow:       inset 0 0 2px  rgba(0,0,0,0.1),            0 0 4px rgba(0,0,0,0.1);    box-shadow:       inset 0 0 2px  rgba(0,0,0,0.1),            0 0 4px rgba(0,0,0,0.1);     padding: 5px;    background: rgba(255,255,255,0.5);    margin: 0 0 10px 0;}
+tbody td input{text-align:center;}
+</style>
+</head>
+<body ng-controller="myCtrl">
+<div class="main bgColor">
+  
+
+<table>
+<tr>
+   <td colspan="5">Days Of month <input type="number" ng-model="daysMonth" ng-init="daysMonth=30"/></td>
+</tr>
+  <tr ng-repeat="emp in empData">
+    <td>{{emp.id}}</td>
+    <td>{{emp.name}}</td>
+    <td>{{emp.actualSalary}}</td>
+    <td ng-init="emp.daysWorked=0"><input type="number" ng-model="emp.daysWorked" /></td>
+    <td ng-init="emp.currentSalary=0">{{emp.currentSalary = ((emp.actualSalary/daysMonth)*emp.daysWorked).toFixed(0)}}</td>
+    </tr>
+</table>
+
+<br><br><br>
+
+<table class="myTable">
+   <tr>
+		<th rowspan="2">SNO</th>
+        <th rowspan="2">Name</th>
+        <th colspan="2">Days Worked</th>
+        <th colspan="2">Basic</th>
+        <th colspan="2">HRA</th>
+        <th colspan="2">WA</th>
+        <th colspan="2">Salary</th>
+        <th rowspan="2">Earned Total</th>
+        <th colspan="2">PF</th>
+        <th rowspan="2">ESI</th>
+  </tr>
+   <tr>  <th>Actual</th>
+         <th>Adjusted</th>
+		<th>Basic</th>
+        <th>BasicNew</th>
+        <th>HRA</th>
+        <th>HRANew</th>
+        <th>WA</th>
+        <th>WANew</th>
+        <th>Register</th>
+        <th>Current</th>
+         <th>Actual</th>
+         <th>Adjusted</th>
+  </tr>
+  <tr ng-repeat="emp in empData">
+    <td>{{emp.id}}</td>
+    <td>{{emp.name}}</td>
+    <td>{{emp.daysWorked}}</td>
+    <td ng-init="emp.daysAdjusted=0">{{emp.daysAdjusted = getDaysAdjusted(emp);}}</td>
+    <td>{{emp.basic}}</td>
+    <td ng-init="emp.basicNew=0">{{emp.basicNew = ((emp.basic/daysMonth)*emp.daysAdjusted).toFixed(0)}}</td>
+    <td>{{emp.hra}}</td>
+    <td ng-init="emp.hraNew=0">{{emp.hraNew = ((emp.hra/daysMonth)*emp.daysAdjusted).toFixed(0)}}</td>
+    <td>{{emp.wa}}</td>
+    <td ng-init="emp.waNew=0">{{emp.waNew = ((emp.wa/daysMonth)*emp.daysAdjusted).toFixed(0)}}</td>
+    
+    <td ng-init="emp.registerSalary">{{emp.registerSalary = (emp.basic+emp.hra+emp.wa) }}</td>
+    <td>{{emp.currentSalary}}</td>
+    <td ng-init="emp.daysAdjustedSalary=0">{{emp.daysAdjustedSalary = getAdjustedSalary(emp)}}</td>
+    <td ng-init="emp.actualPF=0">{{emp.actualPF = ((emp.basic * 12)/100).toFixed(0) }}</td>
+    <td ng-init="emp.adjustPF=0">{{emp.adjustPF = ((emp.basicNew * 12)/100).toFixed(0) }}</td>
+    <td ng-init="emp.esi=0">{{emp.esi = getESI(emp)}}</td>
+  </tr>
+</table>
+
+
+</div>
+
+<script src="angular_1.2.min.js"></script>
+<script src="data.js"></script>
+<script src="module.js"></script>
+</body>
+</html>
